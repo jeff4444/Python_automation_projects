@@ -22,6 +22,13 @@ def print_rates(dictionary, c):
     for key, val in dictionary.items():
         print(f'1 {c} -> {val} {key}')
 
+def menu(text, fnc):
+    option = int(get_valid_response(f"Select Option:\n[1] Return To main\n[2] {text}\n[3] Quit\nEnter response: ", "123"))
+    if option == 1:
+        main()
+    elif option == 2:
+        fnc()
+
 
 def latest_currencies():
     rate = CurrencyRates()
@@ -40,11 +47,7 @@ def latest_currencies():
             print_rates(rate.get_rates(currency), currency)
         except:
             print(f'{currency} could not be found')
-    option = int(get_valid_response("Select Option:\n[1] Return To main\n[2] Check rates again\n[3] Quit\nEnter response: ", "123"))
-    if option == 1:
-        main()
-    elif option == 2:
-        latest_currencies()
+    menu("Check rates again", latest_currencies)
 
 def print_conversion(base, dest, amt, res):
     print(f'{amt} {base} = {res} {dest}')
@@ -71,11 +74,7 @@ def convert_amount():
             print_conversion(base_cur, dest_cur, amount, rate.convert(base_cur, dest_cur, amount))
         except:
             print("An error occured")
-    option = int(get_valid_response("Select Option:\n[1] Return To main\n[2] Convert again\n[3] Quit\nEnter response: ", "123"))
-    if option == 1:
-        main()
-    elif option == 2:
-        convert_amount()
+    menu("Convert again", convert_amount)
 
 
 
@@ -96,11 +95,7 @@ def two_pairs_exchange():
             print_pair_rate(base_cur, dest_cur, rate.get_rate(base_cur, dest_cur))
         except:
             print("An error occured")
-    option = int(get_valid_response("Select Option:\n[1] Return To main\n[2] Check exchange rate again\n[3] Quit\nEnter response: ", "123"))
-    if option == 1:
-        main()
-    elif option == 2:
-        two_pairs_exchange()
+    menu("Check exchange rate again", two_pairs_exchange)
 
 
 def fiat_exchange():
