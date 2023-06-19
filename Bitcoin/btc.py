@@ -3,6 +3,9 @@ import forex
 from forex_python.bitcoin import BtcConverter
 import datetime
 
+main = __import__('main').main
+
+# For Bitcoin exchanges (Submain function in this file)
 def btc_exchange():
     print("Select Option:\n[1] See price of 1BTC\n[2] Convert to BTC\n[3] Convert from BTC")
     ans = int(forex.get_valid_response("Enter response: ", "123"))
@@ -14,6 +17,7 @@ def btc_exchange():
         convert_from()
 
 
+# Get latest/recent BTC prices
 def see_prices():
     btc = BtcConverter()
     currency = forex.input_currency("Enter currency: ")
@@ -28,6 +32,7 @@ def see_prices():
     forex.menu("See prices again", see_prices)
 
 
+# Convert from Bitcoin to Fiat
 def convert_from():
     btc = BtcConverter()
     currency = forex.input_currency("Enter currency: ")
@@ -43,7 +48,7 @@ def convert_from():
     forex.menu("Convert from BTC again", convert_from)
 
 
-
+# Convert from Fiat to Bitcoin
 def convert_to():
     btc = BtcConverter()
     currency = forex.input_currency("Enter currency: ")
@@ -57,6 +62,13 @@ def convert_to():
         date_obj = datetime.datetime(y, m, d, h, mi, s, ms)
         print_price_to(amount, currency, btc.convert_to_btc_on(amount, currency, date_obj))
     forex.menu("Convert to BTC again", convert_to)
+
+
+
+''' Helper functions '''
+
+def print_price_to(amt, cur, res):
+    print(f'{amt} {cur} = {res} BTC')
 
 
 def print_price(coin, cur, pr):

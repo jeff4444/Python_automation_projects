@@ -3,12 +3,16 @@
 from forex_python.converter import CurrencyRates
 import datetime
 
+main = __import__('main').main
+
+# Used to get a valid reponse from user (To avoid errors)
 def get_valid_response(text, options):
     response = input(text).strip()
     while response not in options:
         response = input(f'Invalid choice, {text}').strip()
     return response
 
+# Gets a valid date from user
 def get_valid_date():
     year = int(get_valid_response("Enter year: ", list(map((lambda x: str(x)), list(range(1, 10000))))))
     month = int(get_valid_response("Enter month: ", list(map((lambda x: str(x)), list(range(1, 13))))))
@@ -18,10 +22,13 @@ def get_valid_date():
     second = int(get_valid_response("Enter second: ", list(map((lambda x: str(x)), list(range(0, 60))))))
     return year, month, day, hour, minute, second, 0
 
+
+# Print rates
 def print_rates(dictionary, c):
     for key, val in dictionary.items():
         print(f'1 {c} -> {val} {key}')
 
+# Display the menu at the end of the submain function of this file
 def menu(text, fnc):
     option = int(get_valid_response(f"Select Option:\n[1] Return To main\n[2] {text}\n[3] Quit\nEnter response: ", "123"))
     if option == 1:
@@ -29,7 +36,7 @@ def menu(text, fnc):
     elif option == 2:
         fnc()
 
-
+# Prints latest/recent currency rates
 def latest_currencies():
     rate = CurrencyRates()
     currency = input_currency("Enter currency: ")
@@ -49,13 +56,16 @@ def latest_currencies():
             print(f'{currency} could not be found')
     menu("Check rates again", latest_currencies)
 
+''' Helper Functions '''
 def print_conversion(base, dest, amt, res):
     print(f'{amt} {base} = {res} {dest}')
 
 def print_pair_rate(base, dest, res):
     print(f'1 {base} = {res} {dest}')
 
+''' End Of Helper Functions '''
 
+# Converts an amount from one currency to another
 def convert_amount():
     rate = CurrencyRates()
     base_cur = input_currency("Enter base currency: ")
@@ -77,7 +87,7 @@ def convert_amount():
     menu("Convert again", convert_amount)
 
 
-
+# Displays the exchange rate between a Fiat currency pair
 def two_pairs_exchange():
     rate = CurrencyRates()
     base_cur = input_currency("Enter base currency: ")
@@ -98,6 +108,7 @@ def two_pairs_exchange():
     menu("Check exchange rate again", two_pairs_exchange)
 
 
+# Submain function - called by main.py, starts all code in this file
 def fiat_exchange():
     print("Select Option: \n \
             [1] See all latest currency rates for one currency\n \
@@ -112,6 +123,8 @@ def fiat_exchange():
     else:
         convert_amount()
 
+
+''' More Helper Functions '''
 def input_currency(text):
     code = CurrencyRates()
     cur = input(text).strip().upper()
