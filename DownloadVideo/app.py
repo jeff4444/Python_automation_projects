@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 from pytubefix import YouTube
+from pathlib import Path
 
 app = Flask(__name__)
 
@@ -35,8 +36,8 @@ def download():
     link = request.args.get("url")
     video = valid_link(link)
     if video:
-        video.streams.get_highest_resolution().download()
-        return "Download Complete! Check your folder."
+        video.streams.get_highest_resolution().download(str(Path.home() / "Downloads"))
+        return "Download Complete! Check your Downloads folder."
     return redirect(url_for("index"))
 
 if __name__ == "__main__":

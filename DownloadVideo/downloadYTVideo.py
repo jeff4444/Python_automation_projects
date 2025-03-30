@@ -2,6 +2,7 @@
 from pytubefix import YouTube
 from pytubefix.cli import on_progress
 import sys
+from pathlib import Path
 
 # Check if the link provided is a valid YouTube video Link
 def valid_video(link):
@@ -35,7 +36,8 @@ def main():
     
 
     ys = yt.streams.get_highest_resolution()
-    ys.download()
+    download_path = str(Path.home() / "Downloads")
+    ys.download(output_path=download_path)
 
 
 # Call main
